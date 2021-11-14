@@ -21,8 +21,8 @@ const todoApi = require ('./routes/todosApi');
 app.use('/api/v1', todoApi);
 
 //user api
-const userApi =require ('./routes/userApi');
-app.use('./api/v1', userApi);
+const userApi = require ('./routes/userApi');
+app.use('/api/v1', userApi);
 
 // ************************************************************************
 

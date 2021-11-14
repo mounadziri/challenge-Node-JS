@@ -8,13 +8,8 @@ const userSchema = new Schema({
   email : {type: String , required : true , unique: true},
   password:  {type:String, required: true},
   age: Number,
-
-
-},{
-    // best practce
-    versionKey: false,// for desactiving __v on mongoDB,
-    timestamps: true  // time of update and time of creation(creatAT, updaeAT)
-});
+  todos : [{type : mongoose.Types.ObjectId , ref : 'todos'}]
+},{versionKey : false , timestamps : true });
 
 // create the user model
 const User = mongoose.model('users', userSchema);

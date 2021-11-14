@@ -7,7 +7,7 @@ const User =  require ("../models/userSchema");
 // get all users : get bch nrécupéri ml serveur
 router.get('/users', async (req, res) => {
     try {
-        const users = await User.find({});
+        const users = await User.find({}).populate("todos", "title");
         res.json(users)
     } catch (error) {
         console.log(error);
@@ -20,8 +20,8 @@ router.get('/users', async (req, res) => {
 // ***** get to do by id*******************************
 router.get('/users/:id', async (req, res) => {
     try {
-        const todo = await User.findById(req.params.id);
-        res.json(todo)
+        const user = await User.findById(req.params.id);
+        res.json(user)
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error' })
@@ -29,11 +29,11 @@ router.get('/users/:id', async (req, res) => {
 
 });
 
-// *******************creat todo post ajouter au serveur******************************************************
+// *******************creat user post ajouter au serveur******************************************************
 router.post('/users', async (req, res) => {
     try {
-        const todo = await User.create(req.body);
-        res.json(todo);
+        const user = await User.create(req.body);
+        res.json(user);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error' })
@@ -41,11 +41,11 @@ router.post('/users', async (req, res) => {
 
 });
 
-// ***************************update todo put modifier du seveur**************************************
+// ***************************update user put modifier du seveur**************************************
 router.put('/users/:id', async (req, res) => {
     try {
-        const todo = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(todo);
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(user)  ;
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error' })
@@ -53,11 +53,11 @@ router.put('/users/:id', async (req, res) => {
 
 });
 
-// *******************delete todo : effacer du serveur****************************************
+// *******************delete user : effacer du serveur****************************************
 router.delete('/users/:id', async (req, res) => {
     try {
-        const todo = await User.findByIdAndRemove(req.params.id);
-        res.json({ messasage: "todo has been deleted successfully" })
+        const user = await User.findByIdAndRemove(req.params.id);
+        res.json({ messasage: "user has been deleted successfully" })
 
     } catch (error) {
         console.log(error);
@@ -65,6 +65,28 @@ router.delete('/users/:id', async (req, res) => {
     }
 
 });
+//affect user to user bch nzid haja lel tableau
+router.put('/affect-todo/:iduser/:iduser', async(req,res)=>{
+    try {
+        const user = await User.findByIdAndUpdate(req.params.iduser, {$push:{todos: req.params.idtodo}}, 
+            { new: true });
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error' })
+    }
+});
 
+//desafect user from user bch nahi haja ml tableau
+router.delete('/desaffect-todo/:iduser/:idtodo', async(req,res)=>{
+    try {
+        const user = await User.findByIdAndUpdate(req.params.iduser,{$pull:{todos: req.params.idtodo}}, { new: true });
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error' })
+    }
+    
+})
 
 module.exports = router;
