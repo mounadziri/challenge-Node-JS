@@ -23,6 +23,8 @@ app.use('/api/v1', todoApi);
 //user api
 const userApi = require ('./routes/userApi');
 app.use('/api/v1', userApi);
+//mail api
+app.use('/api/v1', mailApi);
 
 // ************************************************************************
 
