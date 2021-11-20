@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const path = require ('path');
+const fs = require('fs');
+const ejs = require('ejs');
 
 router.post('/sendmail', async(req,res)=>{
 try{
@@ -14,11 +17,19 @@ try{
     });
 
     // 2.0 create mail option 
+    //2.1read template path
+    const template_path = path.resolve('./mail_template','register_notification.html');
+    // console.log('template_path');
+
+    // 2.2read template 
+    const template= fs.readFileSync(template_path, {encoding:'utf-8'});
+    // console.log(template);
+    
     const mailoption = {
         from: process.env.MAIL, //sender
-        to:'mona.dziri@gmail.com', //receiver
+        to:'mona.dziri@gmail.com, mouna.dz2105@gmail.com', //receiver
         subject: 'hello', // Subject line
-        html:'<b>Bonjour</b>', // html body
+        html:template, // html body
     };
 
         // 3.0 send mail  
