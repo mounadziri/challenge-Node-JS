@@ -3,6 +3,12 @@ const morgan = require('morgan');
 const app = express();
 const port = 3000;
 
+const dotenv = require('dotenv');
+
+//configuration dotenv
+
+dotenv.config();
+
 // connecte to database
 const connect = require('./database/connect');
 
@@ -24,6 +30,7 @@ app.use('/api/v1', todoApi);
 const userApi = require ('./routes/userApi');
 app.use('/api/v1', userApi);
 //mail api
+const mailApi =  require('./routes/mailApi')
 app.use('/api/v1', mailApi);
 
 // ************************************************************************
