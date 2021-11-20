@@ -24,12 +24,18 @@ try{
     // 2.2read template 
     const template= fs.readFileSync(template_path, {encoding:'utf-8'});
     // console.log(template);
+
+    //2.3 render template
+    mailparametres = {
+        name: 'test1'
+    };
+    const render = ejs.render(template, mailparametres);
     
     const mailoption = {
         from: process.env.MAIL, //sender
         to:'mona.dziri@gmail.com, mouna.dz2105@gmail.com', //receiver
         subject: 'hello', // Subject line
-        html:template, // html body
+        html:render, // html body
     };
 
         // 3.0 send mail  
