@@ -1,20 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const nodemailer = require("nodemailer");
 const path = require ('path');
 const fs = require('fs');
 const ejs = require('ejs');
+const Transporter= require('../utils/transpoter.js')
 
 router.post('/sendmail', async(req,res)=>{
 try{
-    // 1.0 create transporter
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user:process.env.MAIL, // generaate auth user
-            pass: process.env.PASSWORD,// generaate auth user
-        }
-    });
+    
 
     // 2.0 create mail option 
     //2.1read template path
@@ -39,7 +32,7 @@ try{
     };
 
         // 3.0 send mail  
-        const info = await transporter.sendMail(mailoption)
+        const info = await Transporter.sendMail(mailoption)
         res.json({message:'check your mail'});
 
 
