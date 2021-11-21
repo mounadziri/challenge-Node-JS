@@ -9,4 +9,5 @@ const nodemailer = require("nodemailer");
         }
     });
 
-    module.exports=Transporter;
+    
+    module.exports=Transporter; 
