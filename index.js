@@ -5,6 +5,9 @@ const port = 3000;
 
 const dotenv = require('dotenv');
 
+const path = require('path');
+
+
 //configuration dotenv
 
 dotenv.config();
@@ -32,6 +35,17 @@ app.use('/api/v1', userApi);
 //mail api
 const mailApi =  require('./routes/mailApi')
 app.use('/api/v1', mailApi);
+
+//file api
+const fileApi =  require('./routes/fileApi')
+app.use('/api/v1', fileApi);
+
+//dossier public pr enregister les fichier 
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
 
 // ************************************************************************
 
