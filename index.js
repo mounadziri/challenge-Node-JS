@@ -7,6 +7,8 @@ const dotenv = require('dotenv');
 
 const path = require('path');
 
+const cron = require('cron');
+
 
 //configuration dotenv
 
