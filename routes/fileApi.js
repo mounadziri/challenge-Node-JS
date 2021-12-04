@@ -1,58 +1,41 @@
-const express = require("express");
+const express = require('express');
+
+const multer = require('multer');
+const path = require("path");
 const router = express.Router();
-// multer
-const multer = require("multer");
-// multer storage
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
-  },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
-  },
-});
-// file filter
-const filefilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({ storage: storage, fileFilter: filefilter });
-
-
-// post file or image
-
-router.post("/", upload.single("files"), async (req, res) => {
-  try {
-    const file = await Files.create({ image: req.file.path });
-    res.status(200).json(file);
-  } catch (error) {
-    res.status(500).json({
-      message: "internal serveur problem ",
-      error: error.message,
-    });
-  }
-});
-// get file router
-router.get("/", async (req, res) => {
-  try {
-    const files = await Files.find({});
-    res.status(200).json({
-        image : files.map(file =>{
-            return{
-                filename : file.image,
-            }
-        })
-    })
-  } catch {}
+    destination:  (req, file, cb) =>{
+        cb(null, './public/uploads');
+    },
+    filename:  (req, file, cb)=> {
+       // console.log(file);
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
 });
 
-// routes
+const fileFilter = (req, file, cb) => {
+    const alowedextentions = ['.png','.jpg','.gif','.jpeg' ]
+    const fileExtention=  path.extname(file.originalname);
+    cb(null, alowedextentions.includes(fileExtention));
+
+    // if (file.mimetype === 'image/jpeg'  file.mimetype === 'image/png' file.mimetype === 'image/jpg') {
+    //     cb(null, true);
+    // } else {
+    //     cb(null, false);
+    // }
+}
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+
+
+
 router.post('/upload-file', upload.single('image'), async(req, res)=>{
-  res.json({message: 'done'});
+    res.json({message: 'done'});
+});
+router.post('/upload-file-Multi', upload.array('image', 5), async(req, res)=>{
+    res.json({message: 'done'});
 });
 
 module.exports = router;
