@@ -10,6 +10,8 @@ const path = require('path');
 const cron = require('cron');
 
 
+
+
 //configuration dotenv
 
 dotenv.config();
@@ -41,6 +43,12 @@ app.use('/api/v1', mailApi);
 //file api
 const fileApi =  require('./routes/fileApi')
 app.use('/api/v1', fileApi);
+
+// authentification 
+
+ 
+const authetification =  require('./routes/authetification.route')
+app.use('/api/v1', authetification);
 
 //dossier public pr enregister les fichier 
 app.use(express.static(path.join(__dirname, 'public')));
