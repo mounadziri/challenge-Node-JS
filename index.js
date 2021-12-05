@@ -19,6 +19,10 @@ dotenv.config();
 // connecte to database
 const connect = require('./database/connect');
 
+// bearer strategy with passeport
+require('./passport-strategies/bearer')
+
+
 //************************/ morgan config*******************
 app.use(morgan('dev'));
 
@@ -45,8 +49,6 @@ const fileApi =  require('./routes/fileApi')
 app.use('/api/v1', fileApi);
 
 // authentification 
-
- 
 const authetification =  require('./routes/authetification.route')
 app.use('/api/v1', authetification);
 
